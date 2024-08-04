@@ -5,8 +5,19 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Dynamics_Solution_Mover"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
+        Title="Solution Migration" Height="450" Width="800">
     <Grid>
-
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <StackPanel  Grid.Row="0" Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,5,0,5">
+            <Button x:Name="Start" Content="Start" HorizontalAlignment="Center" VerticalAlignment="Top" Click="Start_Click" Padding="10,5,10,7" Margin="5,0,5,0"/>
+            <Button x:Name="PACInstaller" Content="Install PAC" VerticalAlignment="Top" Padding="10,5,10,5" Margin="5,0,5,0" HorizontalAlignment="Center" Click="PACInstaller_Click" Visibility="Collapsed"/>
+        </StackPanel>
+        <TextBox Grid.Row="1" Name="Output" Padding="10,10,10,8" VerticalScrollBarVisibility="Visible" IsReadOnly="True" Margin="0,5,0,10" HorizontalScrollBarVisibility="Auto"/>
     </Grid>
 </Window>
