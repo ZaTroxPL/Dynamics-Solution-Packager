@@ -9,15 +9,19 @@
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="auto"/>
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
             <RowDefinition Height="auto"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
         <StackPanel  Grid.Row="0" Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,5,0,5">
-            <Button x:Name="Start" Content="Start" HorizontalAlignment="Center" VerticalAlignment="Top" Click="Start_Click" Padding="10,5,10,7" Margin="5,0,5,0"/>
+            <Button x:Name="Start" Content="Start" HorizontalAlignment="Center" VerticalAlignment="Top" Click="Start_Click" Padding="10,5,10,5" Margin="5,0,5,0"/>
             <Button x:Name="PACInstaller" Content="Install PAC" VerticalAlignment="Top" Padding="10,5,10,5" Margin="5,0,5,0" HorizontalAlignment="Center" Click="PACInstaller_Click" Visibility="Collapsed"/>
         </StackPanel>
-        <TextBox Grid.Row="1" Name="Output" Padding="10,10,10,8" VerticalScrollBarVisibility="Visible" IsReadOnly="True" Margin="0,5,0,10" HorizontalScrollBarVisibility="Auto"/>
+        <StackPanel  Grid.Row="0" Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,5,0,5">
+            <Button x:Name="Login" Content="Login" HorizontalAlignment="Center" VerticalAlignment="Top" Padding="10,5,10,5" Margin="5,0,5,0" Visibility="Visible" Click="Login_Click"/>
+        </StackPanel>
+        <TextBox Grid.Row="1" Grid.ColumnSpan="2" Name="Output" Padding="10,10,10,8" VerticalScrollBarVisibility="Visible" IsReadOnly="True" Margin="0,5,0,10" HorizontalScrollBarVisibility="Auto" FontFamily="Cascadia Mono"/>
     </Grid>
 </Window>
