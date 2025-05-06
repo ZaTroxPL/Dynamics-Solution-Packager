@@ -37,9 +37,24 @@ namespace Dynamics_Solution_Mover
                 ArgumentNullException.ThrowIfNull(proc);
 
                 string output = proc.StandardOutput.ReadToEnd();
-                Output.AppendText("Welcome to the Program :)\r\n");
                 proc.WaitForExit();
 
+                ProcessStartInfo checkAuthProfile = new()
+                {
+                    FileName = "pac",
+                    Arguments = "auth who",
+                    CreateNoWindow = true,
+                    RedirectStandardOutput = true,
+                    RedirectStandardError = true,
+                    UseShellExecute = false
+                };
+
+                proc = Process.Start(checkAuthProfile);
+                ArgumentNullException.ThrowIfNull(proc);
+
+                output = proc.StandardOutput.ReadToEnd();
+                proc.WaitForExit();
+                Output.AppendText("Welcome to the Program :)\r\n");
             }
             catch (Win32Exception ex)
             {
@@ -120,6 +135,7 @@ namespace Dynamics_Solution_Mover
 
                     output = proc.StandardOutput.ReadToEnd();
                     proc.WaitForExit();
+                    Output.AppendText(output);
                 }
                 else if (output.StartsWith("Index"))
                 {
@@ -130,7 +146,6 @@ namespace Dynamics_Solution_Mover
                     profileAuthDialog.ShowDialog();
                 }
 
-                    Output.AppendText(output);
             }
             catch (ArgumentNullException ex)
             {

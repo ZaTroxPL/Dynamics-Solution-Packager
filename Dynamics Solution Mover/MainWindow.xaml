@@ -15,6 +15,7 @@
             <RowDefinition Height="auto"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
+        <Label Grid.Row="0" Grid.Column="0" Content="Login Profile: N/A" HorizontalAlignment="Left" VerticalAlignment="Center" />
         <StackPanel  Grid.Row="0" Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,5,0,5">
             <Button x:Name="Start" Content="Start" HorizontalAlignment="Center" VerticalAlignment="Top" Click="Start_Click" Padding="10,5,10,5" Margin="5,0,5,0"/>
             <Button x:Name="PACInstaller" Content="Install PAC" VerticalAlignment="Top" Padding="10,5,10,5" Margin="5,0,5,0" HorizontalAlignment="Center" Click="PACInstaller_Click" Visibility="Collapsed"/>

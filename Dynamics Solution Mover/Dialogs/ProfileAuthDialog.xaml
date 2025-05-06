@@ -8,6 +8,11 @@
         WindowStartupLocation="CenterOwner"
         Title="Auth Profiles" Height="250" Width="700">
     <Grid>
-        <DataGrid x:Name="dataGrid" AutoGenerateColumns="True" IsReadOnly="True"/>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="auto"/>
+        </Grid.RowDefinitions>
+        <DataGrid Grid.Row="0" x:Name="dataGrid" AutoGenerateColumns="True" IsReadOnly="True" SelectionUnit="FullRow" SelectionMode="Single"/>
+        <Button Grid.Row="1" x:Name="ConfirmSelected" Content="Select" HorizontalAlignment="Center" VerticalAlignment="Top" Padding="10,5,10,5" Margin="5,0,5,0" Click="ConfirmSelected_Click"/>
     </Grid>
 </Window>
