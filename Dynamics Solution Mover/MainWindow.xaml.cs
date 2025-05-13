@@ -1,4 +1,5 @@
 ﻿using Dynamics_Solution_Mover.Dialogs;
+using Dynamics_Solution_Mover.Model;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.Text;
@@ -22,38 +23,19 @@ namespace Dynamics_Solution_Mover
         public MainWindow()
         {
             InitializeComponent();
+
+            ShowSpinner();
+            CheckIfPacExists();
+            CheckCurrentUser();
+            HideSpinner();
+        }
+
+        private async void CheckIfPacExists()
+        {            
             try
             {
-                ProcessStartInfo checkIfPacExissts = new()
-                {
-                    FileName = "pac",
-                    CreateNoWindow = true,
-                    RedirectStandardOutput = true,
-                    RedirectStandardError = true,
-                    UseShellExecute = false
-                };
+                string output = await PacCommands.CheckIfPacAsync();
 
-                var proc = Process.Start(checkIfPacExissts);
-                ArgumentNullException.ThrowIfNull(proc);
-
-                string output = proc.StandardOutput.ReadToEnd();
-                proc.WaitForExit();
-
-                ProcessStartInfo checkAuthProfile = new()
-                {
-                    FileName = "pac",
-                    Arguments = "auth who",
-                    CreateNoWindow = true,
-                    RedirectStandardOutput = true,
-                    RedirectStandardError = true,
-                    UseShellExecute = false
-                };
-
-                proc = Process.Start(checkAuthProfile);
-                ArgumentNullException.ThrowIfNull(proc);
-
-                output = proc.StandardOutput.ReadToEnd();
-                proc.WaitForExit();
                 Output.AppendText("Welcome to the Program :)\r\n");
             }
             catch (Win32Exception ex)
@@ -66,84 +48,54 @@ namespace Dynamics_Solution_Mover
             }            
         }
 
+        private async void CheckCurrentUser()
+        {
+            var users = AuthProfile.ParseAuthProfiles(await PacCommands.PacAuthListAsync());
+            var user = users.Where(user => user.Active).FirstOrDefault();
+            string userName = user?.User ?? string.Empty;
+            string envUrl = user?.EnvironmentURL ?? string.Empty;
+            CurrentUser.Content = $"Profile: {userName}";
+            EnvUrl.Content = envUrl;
+        }
+
         private void Start_Click(object sender, RoutedEventArgs e)
         {
                       
         }
 
-        private void PACInstaller_Click(object sender, RoutedEventArgs e)
-        {
-            ProcessStartInfo startInfo = new()
-            {
-                FileName = "dotnet",
-                Arguments = "tool install --global Microsoft.PowerApps.CLI.Tool",
-                CreateNoWindow = true,
-                RedirectStandardOutput = true,
-                RedirectStandardError = true,
-                UseShellExecute = false
-            };
-
-            var proc = Process.Start(startInfo);
-
-            ArgumentNullException.ThrowIfNull(proc);
-
-            string output = proc.StandardOutput.ReadToEnd();
-            proc.WaitForExit();
+        private async void PACInstaller_Click(object sender, RoutedEventArgs e)
+        {                   
+            ShowSpinner();
+            string output = await PacCommands.InstallPacAsync();            
 
             Output.AppendText(output);
+            HideSpinner();
         }
 
-        private void Login_Click(object sender, RoutedEventArgs e)
-        {
-            ProcessStartInfo authList = new()
-            {
-                FileName = "pac",
-                Arguments = "auth list",
-                CreateNoWindow = true,
-                RedirectStandardOutput = true,
-                RedirectStandardError = true,
-                UseShellExecute = false
-            };
-
+        private async void Login_Click(object sender, RoutedEventArgs e)
+        {            
+            ShowSpinner();
             try
             {
-                Process? proc;
-                string output;
-
-                proc = Process.Start(authList);
-                ArgumentNullException.ThrowIfNull(proc);
-
-                output = proc.StandardOutput.ReadToEnd();
-                proc.WaitForExit();
+                string output = await PacCommands.PacAuthListAsync();                
+                
 
                 if (output == "No profiles were found on this computer. Please run 'pac auth create' to create one.\r\n")
                 {
                     Output.AppendText("No authentication profiles were found on this computer, creating new profile.\r\n");
 
-                    ProcessStartInfo authCreate = new()
-                    {
-                        FileName = "pac",
-                        Arguments = "auth create",
-                        CreateNoWindow = true,
-                        RedirectStandardOutput = true,
-                        RedirectStandardError = true,
-                        UseShellExecute = false
-                    };
+                    output = await PacCommands.PacAuthCreateAsync();
 
-                    proc = Process.Start(authCreate);
-                    ArgumentNullException.ThrowIfNull(proc);
-
-                    output = proc.StandardOutput.ReadToEnd();
-                    proc.WaitForExit();
                     Output.AppendText(output);
                 }
                 else if (output.StartsWith("Index"))
                 {
+                    HideSpinner();
                     ProfileAuthDialog profileAuthDialog = new(output)
                     {
-                        Owner = this
+                        Owner = this,                        
                     };
-                    profileAuthDialog.ShowDialog();
+                    profileAuthDialog.ShowDialog();                    
                 }
 
             }
@@ -151,6 +103,26 @@ namespace Dynamics_Solution_Mover
             {
                 Output.AppendText(ex.Message);
             }
+            catch (Exception ex) 
+            {
+                Output.AppendText(ex.Message);
+            }
+
+            HideSpinner();
+        }
+
+        private void ShowSpinner()
+        {
+            SpinnerBackground.Visibility = Visibility.Visible;
+            Spinner.Spin = true;
+            Spinner.Visibility = Visibility.Visible;
+        }
+
+        private void HideSpinner()
+        {
+            SpinnerBackground.Visibility = Visibility.Collapsed;
+            Spinner.Spin = false;
+            Spinner.Visibility = Visibility.Collapsed;
         }
     }
 }

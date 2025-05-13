@@ -4,6 +4,7 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Dynamics_Solution_Mover.Dialogs"
+        xmlns:fa="http://schemas.fontawesome.io/icons/"
         mc:Ignorable="d"
         WindowStartupLocation="CenterOwner"
         Title="Auth Profiles" Height="250" Width="700">
@@ -12,7 +13,12 @@
             <RowDefinition Height="*"/>
             <RowDefinition Height="auto"/>
         </Grid.RowDefinitions>
+        <Rectangle x:Name="SpinnerBackground" Grid.RowSpan="2" Panel.ZIndex="1" Opacity="0.6" Fill="White" Visibility="Collapsed"/>
+        <fa:ImageAwesome x:Name="Spinner" Grid.RowSpan="2" Icon="Cog" Spin="False" SpinDuration="10" Panel.ZIndex="1" Visibility="Collapsed"/>
         <DataGrid Grid.Row="0" x:Name="dataGrid" AutoGenerateColumns="True" IsReadOnly="True" SelectionUnit="FullRow" SelectionMode="Single"/>
-        <Button Grid.Row="1" x:Name="ConfirmSelected" Content="Select" HorizontalAlignment="Center" VerticalAlignment="Top" Padding="10,5,10,5" Margin="5,0,5,0" Click="ConfirmSelected_Click"/>
+        <StackPanel  Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,5,0,5">
+            <Button Grid.Row="1" x:Name="ConfirmSelected" Content="Select" HorizontalAlignment="Center" VerticalAlignment="Top" Padding="10,5,10,5" Margin="5,0,5,0" Click="ConfirmSelected_Click"/>
+            <Button Grid.Row="1" x:Name="AddNew" Content="Add New" HorizontalAlignment="Center" VerticalAlignment="Top" Padding="10,5,10,5" Margin="5,0,5,0" Click="AddNew_Click"/>
+        </StackPanel>
     </Grid>
 </Window>

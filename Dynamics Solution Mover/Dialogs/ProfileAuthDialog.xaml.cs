@@ -29,11 +29,14 @@ namespace Dynamics_Solution_Mover.Dialogs
             dataGrid.ItemsSource = AuthProfile.ParseAuthProfiles(authProfilesString);
         }
 
-        private void ConfirmSelected_Click(object sender, RoutedEventArgs e)
+        private async void ConfirmSelected_Click(object sender, RoutedEventArgs e)
         {
+            ShowSpinner();
+
             if (dataGrid.SelectedItems.Count == 0)
             {
                 MessageBox.Show("No profile selected", "Selection Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                HideSpinner();
                 return;
             }
 
@@ -42,22 +45,36 @@ namespace Dynamics_Solution_Mover.Dialogs
             if (selectedProfile.Active)
             {
                 MessageBox.Show("Selected Profile is already active", "Selection Error", MessageBoxButton.OK, MessageBoxImage.Information);
+                HideSpinner();
                 return;
             }
 
-            ProcessStartInfo authSelect = new()
-            {
-                FileName = "pac",
-                Arguments = $"auth select -i {selectedProfile.Index}",
-                CreateNoWindow = true,
-                RedirectStandardOutput = true,
-                RedirectStandardError = true,
-                UseShellExecute = false
-            };
+            await PacCommands.PacAuthSelectAsync(selectedProfile.Index);
 
-            Process proc = Process.Start(authSelect);
-            ArgumentNullException.ThrowIfNull(proc);            
-            proc.WaitForExit();
+            dataGrid.ItemsSource = AuthProfile.ParseAuthProfiles(await PacCommands.PacAuthListAsync());
+
+            HideSpinner();
+        }
+
+        private async void AddNew_Click(object sender, RoutedEventArgs e)
+        {            
+            string output = await PacCommands.PacAuthCreateAsync();
+
+            dataGrid.ItemsSource = AuthProfile.ParseAuthProfiles(await PacCommands.PacAuthListAsync());            
+        }
+
+        private void ShowSpinner()
+        {
+            SpinnerBackground.Visibility = Visibility.Visible;
+            Spinner.Spin = true;
+            Spinner.Visibility = Visibility.Visible;
+        }
+
+        private void HideSpinner()
+        {
+            SpinnerBackground.Visibility = Visibility.Collapsed;
+            Spinner.Spin = false;
+            Spinner.Visibility = Visibility.Collapsed;
         }
     }
 }

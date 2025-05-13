@@ -4,8 +4,9 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Dynamics_Solution_Mover"
+        xmlns:fa="http://schemas.fontawesome.io/icons/"
         mc:Ignorable="d"
-        Title="Solution Migration" Height="450" Width="800">
+        Title="Package Manager" Height="450" Width="800">
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*"/>
@@ -15,13 +16,18 @@
             <RowDefinition Height="auto"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
-        <Label Grid.Row="0" Grid.Column="0" Content="Login Profile: N/A" HorizontalAlignment="Left" VerticalAlignment="Center" />
+        <Rectangle x:Name="SpinnerBackground" Grid.ColumnSpan="2" Grid.RowSpan="2" Panel.ZIndex="1" Opacity="0.6" Fill="White" Visibility="Collapsed"/>
+        <fa:ImageAwesome x:Name="Spinner" Grid.ColumnSpan="2" Grid.RowSpan="2" Icon="Cog" Spin="False" SpinDuration="10" Panel.ZIndex="1" Visibility="Collapsed"/>
+        <StackPanel Grid.Row="0">
+            <Label Grid.Row="0" Grid.Column="0" Name="CurrentUser" Content="Profile: N/A" HorizontalAlignment="Left" VerticalAlignment="Center" FontSize="10" />
+            <Label Grid.Row="0" Grid.Column="0" Name="EnvUrl" Content="" HorizontalAlignment="Left" VerticalAlignment="Center" FontSize="10" />
+        </StackPanel>
         <StackPanel  Grid.Row="0" Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,5,0,5">
-            <Button x:Name="Start" Content="Start" HorizontalAlignment="Center" VerticalAlignment="Top" Click="Start_Click" Padding="10,5,10,5" Margin="5,0,5,0"/>
-            <Button x:Name="PACInstaller" Content="Install PAC" VerticalAlignment="Top" Padding="10,5,10,5" Margin="5,0,5,0" HorizontalAlignment="Center" Click="PACInstaller_Click" Visibility="Collapsed"/>
+            <Button x:Name="Start" Content="Start" HorizontalAlignment="Center" VerticalAlignment="Center" Click="Start_Click" Padding="10,5,10,5" Margin="5,0,5,0"/>
+            <Button x:Name="PACInstaller" Content="Install PAC" VerticalAlignment="Center" Padding="10,5,10,5" Margin="5,0,5,0" HorizontalAlignment="Center" Click="PACInstaller_Click" Visibility="Collapsed"/>
         </StackPanel>
         <StackPanel  Grid.Row="0" Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,5,0,5">
-            <Button x:Name="Login" Content="Login" HorizontalAlignment="Center" VerticalAlignment="Top" Padding="10,5,10,5" Margin="5,0,5,0" Visibility="Visible" Click="Login_Click"/>
+            <Button x:Name="Login" Content="Login" HorizontalAlignment="Center" VerticalAlignment="Center" Padding="10,5,10,5" Margin="5,0,5,0" Visibility="Visible" Click="Login_Click"/>
         </StackPanel>
         <TextBox Grid.Row="1" Grid.ColumnSpan="2" Name="Output" Padding="10,10,10,8" VerticalScrollBarVisibility="Visible" IsReadOnly="True" Margin="0,5,0,10" HorizontalScrollBarVisibility="Auto" FontFamily="Cascadia Mono"/>
     </Grid>

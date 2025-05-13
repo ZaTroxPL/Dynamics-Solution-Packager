@@ -56,7 +56,7 @@ namespace Dynamics_Solution_Mover.Model
                 string environmentUrl = row.Substring(parseMap.Values.Take(8).Sum());
                 AuthProfile authProfile = new AuthProfile(index, active, kind, name, user, cloud, type, environment, environmentUrl);
                 authProfiles.Add(authProfile);
-                row = rows[i + 1];
+                row = rows[++i];
             }
 
             return authProfiles;
