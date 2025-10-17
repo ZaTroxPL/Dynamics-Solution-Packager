@@ -26,8 +26,7 @@ namespace Dynamics_Solution_Mover
 
             ShowSpinner();
             CheckIfPacExists();
-            CheckCurrentUser();
-            HideSpinner();
+            CheckCurrentUser();            
         }
 
         private async void CheckIfPacExists()
@@ -52,8 +51,28 @@ namespace Dynamics_Solution_Mover
         {
             var users = AuthProfile.ParseAuthProfiles(await PacCommands.PacAuthListAsync());
             var user = users.Where(user => user.Active).FirstOrDefault();
-            string userName = user?.User ?? string.Empty;
-            string envUrl = user?.EnvironmentURL ?? string.Empty;
+
+            if (user == null)
+            {
+                HideSpinner();
+                return;
+            }
+
+            if (user.TokenStatus(await PacCommands.PacAuthWhoAsync()))
+            {
+                MessageBox.Show("Current Profile has expired, please login in again", "Selection Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                HideSpinner();
+                return;
+            }
+
+            SetCurrentUserDetails(user);
+            HideSpinner();
+        }
+
+        internal void SetCurrentUserDetails(AuthProfile authProfile)
+        {
+            string userName = authProfile.User ?? string.Empty;
+            string envUrl = authProfile.EnvironmentURL ?? string.Empty;
             CurrentUser.Content = $"Profile: {userName}";
             EnvUrl.Content = envUrl;
         }

@@ -59,7 +59,7 @@ namespace Dynamics_Solution_Mover
 
         internal static async Task<string> PacAuthWhoAsync()
         {
-            return await PacRunner.RunPacCommandAsync($"auth who");
+            return await PacRunner.RunPacCommandAsync($"auth who --json");
         }
     }
 

@@ -53,6 +53,11 @@ namespace Dynamics_Solution_Mover.Dialogs
 
             dataGrid.ItemsSource = AuthProfile.ParseAuthProfiles(await PacCommands.PacAuthListAsync());
 
+            if (Owner is MainWindow mainWindow)
+            {
+                mainWindow.SetCurrentUserDetails(selectedProfile);
+            }                        
+
             HideSpinner();
         }
 

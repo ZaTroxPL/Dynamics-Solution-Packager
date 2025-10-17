@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -18,6 +19,7 @@ namespace Dynamics_Solution_Mover.Model
         public string Type { get; set; } = type;
         public string Environment { get; set; } = environment;
         public string EnvironmentURL { get; set; } = environmentURL;
+        internal DateTime TokenExpiry { get; set; }
 
         public static List<AuthProfile> ParseAuthProfiles(string output)
         {
@@ -60,6 +62,21 @@ namespace Dynamics_Solution_Mover.Model
             }
 
             return authProfiles;
+        }
+
+        public bool TokenStatus(string whoOutput)
+        {
+            if (string.IsNullOrWhiteSpace(whoOutput))
+                return false;
+
+            List<PACJsonObject> results = JsonConvert.DeserializeObject<List<PACJsonObject>>(whoOutput);
+
+            this.TokenExpiry = DateTime.Parse(results.Where(jsonObject => jsonObject.Key == "Token Expires:").FirstOrDefault()?.Value);
+            
+            if (this.TokenExpiry == DateTime.MinValue) 
+                return false;
+
+            return DateTime.Today > this.TokenExpiry;
         }
     }
 }
