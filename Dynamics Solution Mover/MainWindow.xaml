@@ -4,7 +4,7 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Dynamics_Solution_Mover"
-        xmlns:fa="http://schemas.fontawesome.io/icons/"
+        xmlns:fa="http://schemas.awesome.incremented/wpf/xaml/fontawesome.sharp"
         mc:Ignorable="d"
         Title="Package Manager" Height="450" Width="800">
     <Grid>
@@ -17,7 +17,7 @@
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
         <Rectangle x:Name="SpinnerBackground" Grid.ColumnSpan="2" Grid.RowSpan="2" Panel.ZIndex="1" Opacity="0.6" Fill="White" Visibility="Collapsed"/>
-        <fa:ImageAwesome x:Name="Spinner" Grid.ColumnSpan="2" Grid.RowSpan="2" Icon="Cog" Spin="False" SpinDuration="10" Panel.ZIndex="1" Visibility="Collapsed"/>
+        <fa:IconImage x:Name="Spinner" Grid.ColumnSpan="2" Grid.RowSpan="2" Icon="Cog" fa:Awesome.Spin="False" fa:Awesome.SpinDuration="10" Panel.ZIndex="1" Visibility="Collapsed"/>
         <StackPanel Grid.Row="0">
             <Label Grid.Row="0" Grid.Column="0" Name="CurrentUser" Content="Profile: N/A" HorizontalAlignment="Left" VerticalAlignment="Center" FontSize="10" />
             <Label Grid.Row="0" Grid.Column="0" Name="EnvUrl" Content="" HorizontalAlignment="Left" VerticalAlignment="Center" FontSize="10" />

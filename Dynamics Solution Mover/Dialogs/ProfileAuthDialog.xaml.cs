@@ -70,15 +70,15 @@ namespace Dynamics_Solution_Mover.Dialogs
 
         private void ShowSpinner()
         {
-            SpinnerBackground.Visibility = Visibility.Visible;
-            Spinner.Spin = true;
+            SpinnerBackground.Visibility = Visibility.Visible;            
+            FontAwesome.Sharp.Awesome.SetSpin(Spinner, true);
             Spinner.Visibility = Visibility.Visible;
         }
 
         private void HideSpinner()
         {
             SpinnerBackground.Visibility = Visibility.Collapsed;
-            Spinner.Spin = false;
+            FontAwesome.Sharp.Awesome.SetSpin(Spinner, false);
             Spinner.Visibility = Visibility.Collapsed;
         }
     }
