@@ -49,6 +49,20 @@ namespace Dynamics_Solution_Mover.Dialogs
                 return;
             }
 
+            if (await selectedProfile.IsTokenExpired())
+            {
+                var result = MessageBox.Show("Selected Profile is expired, please login again", "Selection Error", MessageBoxButton.YesNo, MessageBoxImage.Information);
+                if (result == MessageBoxResult.Yes)
+                {
+                    string output = await PacCommands.PacAuthCreateAsync();
+
+                    dataGrid.ItemsSource = AuthProfile.ParseAuthProfiles(await PacCommands.PacAuthListAsync());
+                }
+                
+                HideSpinner();
+                return;
+            }
+
             await PacCommands.PacAuthSelectAsync(selectedProfile.Index);
 
             dataGrid.ItemsSource = AuthProfile.ParseAuthProfiles(await PacCommands.PacAuthListAsync());

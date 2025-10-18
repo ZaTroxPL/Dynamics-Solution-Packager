@@ -58,7 +58,7 @@ namespace Dynamics_Solution_Mover
                 return;
             }
 
-            if (user.TokenStatus(await PacCommands.PacAuthWhoAsync()))
+            if (await user.IsTokenExpired())
             {
                 MessageBox.Show("Current Profile has expired, please login in again", "Selection Error", MessageBoxButton.OK, MessageBoxImage.Error);
                 HideSpinner();

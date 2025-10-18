@@ -1,5 +1,6 @@
 # TODO
 
+- [ ] ReAuthenticate users with expired tokens
 - [ ] View Environments
 - [ ] Select Environmnets
 - [ ] View Solutions

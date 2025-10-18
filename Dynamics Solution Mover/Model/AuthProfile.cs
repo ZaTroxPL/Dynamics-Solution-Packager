@@ -64,8 +64,15 @@ namespace Dynamics_Solution_Mover.Model
             return authProfiles;
         }
 
-        public bool TokenStatus(string whoOutput)
+        public async Task<bool> IsTokenExpired()
         {
+            if (this.TokenExpiry != DateTime.MinValue)
+            {
+                return DateTime.Today > this.TokenExpiry;
+            }
+
+            string whoOutput = await PacCommands.PacAuthWhoAsync();
+
             if (string.IsNullOrWhiteSpace(whoOutput))
                 return false;
 
